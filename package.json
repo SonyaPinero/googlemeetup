@@ -1,0 +1,19 @@
+{
+  "name": "googlemeetup",
+  "version": "1.0.0",
+  "description": "Hooking up meetup api to google calendar api",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SonyaPinero/googlemeetup.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SonyaPinero/googlemeetup/issues"
+  },
+  "homepage": "https://github.com/SonyaPinero/googlemeetup#readme"
+}
