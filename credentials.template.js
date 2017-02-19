@@ -3,6 +3,8 @@ export default {
     key: ''
   },
   google: {
-    key: ''
+    refreshToken: '',
+    clientId: '',
+    clientSecret: ''
   }
 }
