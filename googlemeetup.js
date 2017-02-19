@@ -13,7 +13,7 @@ function getGroupData() {
           return reject(err);
         } else {
           console.log('res', res.body);
-          return resolve(res);
+          return resolve(res.body);
         }
       });
   });
@@ -31,7 +31,7 @@ function getEventData(eventId) {
           return reject(err);
         } else {
           console.log('res', res.body.results);
-          return resolve(res);
+          return resolve(res.body.results);
         }
       });
   });
