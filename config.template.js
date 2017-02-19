@@ -6,6 +6,7 @@ export default {
     key: credentials.meetup.key
   },
   google: {
-
+    baseURL: 'https://www.googleapis.com/calendar/v3',
+    key: credentials.google.key
   }
 };
