@@ -1,4 +1,6 @@
 import request from 'superagent';
+import google from 'googleapis';
+import googleAuth from 'google-auth-library';
 import config from './config';
 
 function getEventData() {
@@ -19,9 +21,30 @@ function getEventData() {
   });
 }
 
-
-async function updateGoogleCalendar(){
-  getEventData()
+function getCalendar() {
+  return new Promise((resolve, reject)=>{
+    request
+      .get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${config.google.accessToken}`)
+      .end((err, res)=> {
+        if (err) {
+          console.log('err', err)
+          return reject(err);
+        } else {
+          console.log('res', res)
+          return resolve(res)
+        }
+      })
+  })
 }
 
-updateGoogleCalendar();
+getCalendar()
+
+// async function updateGoogleCalendar(){
+//   //getEventData()
+//   insertGoogleEvent();
+// }
+
+//updateGoogleCalendar();
