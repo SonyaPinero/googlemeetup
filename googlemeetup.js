@@ -41,6 +41,25 @@ function getAccessToken(){
   });
 }
 
+function getCalendarData(accessToken) {
+  return new Promise((resolve, reject)=>{
+    request
+      .get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .end((err, res)=> {
+        if (err) {
+          //console.log('calendar err', err)
+          return reject(err);
+        } else {
+          //console.log('calendar res', res)
+          return resolve(res.body)
+        }
+      });
+  });
+}
+
 function insertCalendarEvent(accessToken, meetupEvent) {
   const formatEvent = {
     'summary': meetupEvent.name,
@@ -65,7 +84,7 @@ function insertCalendarEvent(accessToken, meetupEvent) {
           console.log('calendar err', err)
           return reject(err);
         } else {
-          console.log('calendar res', res)
+          console.log('calendar res', res.body)
           return resolve(res)
         }
       });
@@ -82,9 +101,10 @@ async function updateGoogleCalendar(){
   try {
     const meetupData = await getEventData();
     const token = await getAccessToken();
+    const calendarData = await getCalendarData(token);
 
     (async function(){
-      for(let i = 0; i < meetupData.length; i++){
+      for(let i = 0; i < newEvents.length; i++){
         await insertCalendarEvent(token, meetupData[i]);
         await timer(1000000)
       }
