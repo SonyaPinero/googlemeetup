@@ -21,13 +21,24 @@ function getEventData() {
   });
 }
 
-function getCalendar(accessToken) {
+function insertCalendarEvent(accessToken) {
   return new Promise((resolve, reject)=>{
     request
-      .get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
+      .post(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        'summary': 'Test',
+        'location': '500 5th Ave',
+        'description': 'test',
+        'start': {
+          'dateTime': new Date().toISOString()
+        },
+        'end': {
+          'dateTime': new Date().toISOString()
+        }
+      })
       .end((err, res)=> {
         if (err) {
           //console.log('calendar err', err)
@@ -65,7 +76,7 @@ function getAccessToken(){
 async function updateGoogleCalendar(){
   try {
     const token = await getAccessToken();
-    const results = await getCalendar(token);
+    const results = await insertCalendarEvent(token);
     console.log(results);
   } catch (e){
     console.log('catch err', e);
