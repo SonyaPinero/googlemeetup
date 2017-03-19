@@ -63,7 +63,7 @@ function getCalendarData(accessToken) {
 function insertCalendarEvent(accessToken, meetupEvent) {
   const formatEvent = {
     'summary': meetupEvent.name,
-    'location': meetupEvent.venue.address_1,
+    'location': meetupEvent.venue ? meetupEvent.venue.address_1 : '',
     'description': meetupEvent.description,
     'start': {
       'dateTime': new Date(meetupEvent.time).toISOString()
