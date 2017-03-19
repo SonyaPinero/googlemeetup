@@ -44,7 +44,7 @@ function getAccessToken(){
 function getCalendarData(accessToken) {
   return new Promise((resolve, reject)=>{
     request
-      .get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
+      .get(`https://www.googleapis.com/calendar/v3/calendars/${config.google.calendarId}/events`)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${accessToken}`)
@@ -74,7 +74,7 @@ function insertCalendarEvent(accessToken, meetupEvent) {
   }
   return new Promise((resolve, reject)=>{
     request
-      .post(`https://www.googleapis.com/calendar/v3/calendars/primary/events`)
+      .post(`https://www.googleapis.com/calendar/v3/calendars/${config.google.calendarId}/events`)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${accessToken}`)
@@ -102,13 +102,21 @@ async function updateGoogleCalendar(){
     const meetupData = await getEventData();
     const token = await getAccessToken();
     const calendarData = await getCalendarData(token);
-
-    (async function(){
-      for(let i = 0; i < newEvents.length; i++){
-        await insertCalendarEvent(token, meetupData[i]);
-        await timer(1000000)
+    let newEvents = meetupData.filter((event, idx) => {
+      if (calendarData.items[idx] === undefined) return;
+      if (event.name !== calendarData.items[idx].summary &&
+        event.venue.address_1 !== calendarData.items[idx].location &&
+        new Date(event.time).toLocaleString() !== new Date(calendarData.items[idx].start.dateTime).toLocaleString()) {
+          return event;
       }
-    }());
+    });
+    console.log(newEvents)
+    // (async function(){
+    //   for(let i = 0; i < meetupData.length; i++){
+    //     await insertCalendarEvent(token, meetupData[i]);
+    //     await timer(1000000)
+    //   }
+    // }());
 
   } catch (e){
     console.log('catch err', e);
