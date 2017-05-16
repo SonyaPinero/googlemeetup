@@ -4,7 +4,7 @@
   "description": "Hooking up meetup api to google calendar api",
   "main": "googlemeetup.js",
   "scripts": {
-    "googlemeetup": "node node_modules/babel-cli/bin/babel-node --presets es2015,stage-0 googlemeetup.js"
+    "googlemeetup": "node_modules/babel-cli/bin/babel-node.js --presets es2015,babel-preset-env googlemeetup.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,9 @@
     "url": "https://github.com/SonyaPinero/googlemeetup/issues"
   },
   "homepage": "https://github.com/SonyaPinero/googlemeetup#readme",
-  "dependencies": {
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "google-auth-library": "^0.10.0",
-    "googleapis": "^16.1.0",
-    "superagent": "^3.4.4"
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
+    "superagent": "^3.5.2"
   }
 }

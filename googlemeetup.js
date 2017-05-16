@@ -103,11 +103,17 @@ async function updateGoogleCalendar() {
     const token = await getAccessToken();
     const calendarData = await getCalendarData(token);
 
+    const recentCalendarEvents = calendarData.items.map((event, idx) =>{
+      if (new Date(calendarData.items[idx].start.dateTime).toLocaleString() > new Date(meetupData[0].time).toLocaleString()){
+        return event;
+      }
+    });
+
     const newEvents = meetupData.filter((event, idx) => {
-      if (calendarData.items[idx] === undefined) return event;
-      if (event.venue && event.name !== calendarData.items[idx].summary &&
-        event.venue.address_1 !== calendarData.items[idx].location &&
-        new Date(event.time).toLocaleString() !== new Date(calendarData.items[idx].start.dateTime).toLocaleString()) {
+      if (recentCalendarEvents[idx] === undefined) return event;
+      if (event.venue && event.name !== recentCalendarEvents[idx].summary &&
+        event.venue.address_1 !== recentCalendarEvents[idx].location &&
+        new Date(event.time).toLocaleString() !== new Date(recentCalendarEvents[idx].start.dateTime).toLocaleString()) {
         return event;
       }
     });
