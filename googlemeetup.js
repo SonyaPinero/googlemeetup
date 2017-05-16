@@ -103,8 +103,8 @@ async function updateGoogleCalendar() {
     const token = await getAccessToken();
     const calendarData = await getCalendarData(token);
 
-    const recentCalendarEvents = calendarData.items.map((event, idx) =>{
-      if (new Date(calendarData.items[idx].start.dateTime).toLocaleString() > new Date(meetupData[0].time).toLocaleString()){
+    const recentCalendarEvents = calendarData.items.map((event, idx) => {
+      if (new Date(calendarData.items[idx].start.dateTime).toLocaleString() > new Date(meetupData[0].time).toLocaleString()) {
         return event;
       }
     });
